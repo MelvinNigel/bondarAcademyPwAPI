@@ -82,6 +82,7 @@ test('Create and Delete article', async ({ api }) => {
 
     await api
         .path('/articles/' + slugId)
+        .headers({ Authorization: authToken })
         .deleteRequest(204)
 
     const getArticleResponseAfterDelete = await api
@@ -110,6 +111,7 @@ test('Create, Update and Delete article', async ({ api }) => {
 
     expect(createArticleResponse.article.title).toEqual('first test');
     const slugId = createArticleResponse.article.slug;
+    console.log("slug ID" + slugId);
 
     const updateArticleResponse = await api
         .path('/articles/' + slugId)
@@ -128,6 +130,7 @@ test('Create, Update and Delete article', async ({ api }) => {
     expect(updateArticleResponse.article.description).toEqual('first test description MODIFIED');
     expect(updateArticleResponse.article.body).toEqual('first test body MODIFIED');
     const newSlugId = updateArticleResponse.article.slug
+    console.log("NEW slug ID" + newSlugId);
 
     const getArticleResponse = await api
         .path('/articles')
@@ -139,6 +142,7 @@ test('Create, Update and Delete article', async ({ api }) => {
 
     await api
         .path('/articles/' + newSlugId)
+        .headers({ Authorization: authToken })
         .deleteRequest(204)
 
     const getArticleResponseAfterDelete = await api
